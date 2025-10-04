@@ -1,0 +1,98 @@
+[gd_scene load_steps=11 format=3 uid="uid://jlthugjebc3q"]
+
+[ext_resource type="Script" uid="uid://c4g5msy8fqmat" path="res://Scripts/game.gd" id="1_kc6at"]
+[ext_resource type="Texture2D" uid="uid://c5tevw2qc6tgp" path="res://Asset/KenneySpaceShooter/PNG/playerShip3_blue.png" id="2_28psf"]
+[ext_resource type="Script" uid="uid://dtfh888gv8r3r" path="res://Scripts/space_ship.gd" id="2_c88mg"]
+[ext_resource type="Texture2D" uid="uid://day7fbkmtx5ph" path="res://Asset/KenneySpaceShooter/Backgrounds/blue.png" id="3_c88mg"]
+[ext_resource type="Texture2D" uid="uid://ckpgcq25g8dlp" path="res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big1.png" id="4_bhi04"]
+[ext_resource type="Script" uid="uid://cp6bini5f43rc" path="res://Scripts/asteroids.gd" id="5_c88mg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1phco"]
+radius = 55.0
+height = 110.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uoyx2"]
+friction = 0.16
+bounce = 0.05
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yefae"]
+radius = 35.0
+height = 70.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_uoyx2"]
+font_size = 25
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("asteroid_template", "enemy_spawn", "score_label")]
+script = ExtResource("1_kc6at")
+asteroid_template = NodePath("Asteroid_Template")
+enemy_spawn = NodePath("EnemySpawnTimer")
+score_label = NodePath("Score")
+metadata/_edit_lock_ = true
+
+[node name="SpaceShip" type="CharacterBody2D" parent="."]
+z_index = 1
+position = Vector2(652, 476)
+script = ExtResource("2_c88mg")
+
+[node name="Sprite2D" type="Sprite2D" parent="SpaceShip"]
+z_index = 1
+position = Vector2(11, -7.25)
+scale = Vector2(1.22449, 1.19333)
+texture = ExtResource("2_28psf")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpaceShip"]
+z_index = 1
+position = Vector2(11, 0)
+shape = SubResource("CapsuleShape2D_1phco")
+metadata/_edit_lock_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_c88mg")
+metadata/_edit_lock_ = true
+
+[node name="Asteroid_Template" type="RigidBody2D" parent="." node_paths=PackedStringArray("player", "strikeTimer")]
+visible = false
+z_index = 1
+position = Vector2(1321, 55)
+physics_material_override = SubResource("PhysicsMaterial_uoyx2")
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("5_c88mg")
+player = NodePath("../SpaceShip")
+strikeTimer = NodePath("../Strike Timer")
+metadata/_edit_lock_ = true
+
+[node name="BigSprite1" type="Sprite2D" parent="Asteroid_Template"]
+texture = ExtResource("4_bhi04")
+
+[node name="big_1_collide" type="CollisionShape2D" parent="Asteroid_Template"]
+shape = SubResource("CapsuleShape2D_yefae")
+disabled = true
+
+[node name="Strike Timer" type="Timer" parent="."]
+wait_time = 2.996
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+
+[node name="Score" type="Label" parent="."]
+offset_left = 557.0
+offset_top = 34.0
+offset_right = 597.0
+offset_bottom = 69.0
+text = "0"
+label_settings = SubResource("LabelSettings_uoyx2")
+
+[connection signal="outOfBounds" from="SpaceShip" to="." method="_on_space_ship_out_of_bounds"]
+[connection signal="strikeout" from="Asteroid_Template" to="." method="_on_asteroid_template_strikeout"]
+[connection signal="timeout" from="Strike Timer" to="Asteroid_Template" method="_on_strike_timer_timeout"]
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]

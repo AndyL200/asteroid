@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://x8quxa6hcvpy"]
+
+[ext_resource type="Script" uid="uid://cp6bini5f43rc" path="res://Scripts/asteroids.gd" id="1_dt6oh"]
+[ext_resource type="Texture2D" uid="uid://ckpgcq25g8dlp" path="res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big1.png" id="2_4rgno"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4uy2u"]
+radius = 43.0
+height = 86.0
+
+[node name="Asteroid_Template_Big" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
+z_index = 1
+slide_on_ceiling = false
+script = ExtResource("1_dt6oh")
+strikeTime = NodePath("strikeTime")
+sprite = NodePath("BigSprite1")
+
+[node name="BigSprite1" type="Sprite2D" parent="."]
+texture = ExtResource("2_4rgno")
+
+[node name="big_1_collide" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_4uy2u")
+
+[node name="strikeTime" type="Timer" parent="."]
+
+[connection signal="timeout" from="strikeTime" to="." method="_on_strike_time_timeout"]

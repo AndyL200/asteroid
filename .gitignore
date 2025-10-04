@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+Asset/KenneySpaceShooter/__MACOSX
+project.godot
+icon.svg
+icon.svg.import
+*.import
+*.uid
