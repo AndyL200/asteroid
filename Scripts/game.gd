@@ -53,6 +53,7 @@ func instantiate_enemy():
 	var enemy : CharacterBody2D = enemy_scene.instantiate()
 	enemy.player_position = player.position
 	enemy.death.connect(Callable(self, "remove_enemy"))
+	enemy.firing.connect(Callable(self, "on_enemy_ship_firing"))
 	enemy_current += 1
 	$Enemies.add_child(enemy)
 func remove_enemy(enemy : Node2D):
@@ -118,7 +119,6 @@ func bullet_stopped(bullet : CharacterBody2D) -> void:
 	bullet.queue_free()
 
 func _on_space_ship_firing(body : CharacterBody2D, shoot : Node2D) -> void:
-	print(body.rotation * 180/PI)
 	var bullet = bullet_scene.instantiate()
 	bullet.dir = body.global_rotation
 	bullet.pos = shoot.global_position
@@ -126,3 +126,11 @@ func _on_space_ship_firing(body : CharacterBody2D, shoot : Node2D) -> void:
 	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
 	$Bullets.add_child(bullet)
 	pass # Replace with function body.
+	
+func _on_enemy_ship_firing(body : CharacterBody2D, shoot : Node2D):
+	var bullet = bullet_scene.instantiate()
+	bullet.dir = body.global_rotation
+	bullet.pos = shoot.global_position
+	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
+	$Bullets.add_child(bullet)
+	pass

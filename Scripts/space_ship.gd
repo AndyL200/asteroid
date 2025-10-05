@@ -5,12 +5,14 @@ var screen_position : Vector2
 var screen_ends : Vector2
 signal outOfBounds(player : CharacterBody2D)
 signal firing(body : CharacterBody2D, shootingPosition : Node2D)
+signal death
 
 var max_speed: float = 300.0
 var acceleration: float = 600.0
 var friction: float = 200.0
 var turn_speed: float = 3.0
 var orientation_offset_deg: float = 90.0
+var health := 3
 
 func _ready() -> void:
 	screen_size = get_viewport_rect()
@@ -38,4 +40,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Shoot"):
 		firing.emit(self, $Pellet)
 
-	move_and_slide()	
+	move_and_slide()
+	for i in get_slide_collision_count():
+		var collide = get_slide_collision(i)
+		if collide.get_collider() is CharacterBody2D:
+			health -= 1
+			if health == 0:
+				death.emit()

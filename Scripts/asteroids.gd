@@ -48,6 +48,7 @@ var strikes := 0
 var speed := 150
 signal strikeout(body : CharacterBody2D)
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var type = $Container.get_child(0)
@@ -92,7 +93,10 @@ func _physics_process(delta: float) -> void:
 	if(position.x > screen_ends.x or position.y > screen_ends.y or position.x < screen_position.x or position.y < screen_position.y):
 		if strikeTime.is_stopped():
 			strikeTime.start()
-	move_and_slide()
+			
+	var collide = move_and_collide(velocity * delta)
+	if collide and collide.get_collider().has_method("_hit_method"):
+		strikeout.emit(self)
 	pass
 
 

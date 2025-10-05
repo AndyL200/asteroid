@@ -9,6 +9,7 @@ var screen_ends : Vector2
 var speed := 150
 var player_position : Vector2
 signal death(body : CharacterBody2D)
+signal firing(body : CharacterBody2D)
 
 func _ready()->void:
 	var upper_bound = Vector2(screen_ends.x, screen_ends.y)
@@ -18,8 +19,12 @@ func _ready()->void:
 	var poss = Vector2(high_or_low_x[randi() % 2],high_or_low_y[randi() % 2])
 	position = poss
 	
-	
-func _process(delta: float) -> void:
-	velocity = (player_position - position).normalized() * speed
-	move_and_slide()
+
+func _physics_process(delta: float) -> void:
+	if ((player_position - position).length() > 100):
+		velocity = (player_position - position).normalized() * speed
+	else:
+		velocity = Vector2.ZERO
+		firing.emit(self, $bullet_position)
+	move_and_collide(velocity * delta)
 	pass
