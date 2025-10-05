@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://ckpgcq25g8dlp" path="res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big1.png" id="2_4rgno"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4uy2u"]
-radius = 43.0
-height = 86.0
+radius = 53.0
+height = 106.0
 
 [node name="Asteroid_Template_Big" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
 z_index = 1

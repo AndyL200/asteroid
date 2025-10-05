@@ -1,14 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4jg3nveun4qi"]
+[gd_scene load_steps=5 format=3 uid="uid://bu2pvswn5osf2"]
 
-[ext_resource type="PackedScene" uid="uid://dxlk5fq2r0rrf" path="res://Scenes/dialog_ui.tscn" id="1_4fna7"]
-[ext_resource type="Script" uid="uid://dxgfe6wxj2f2f" path="res://Scripts/heart_to_heart.gd" id="1_ks51s"]
+[ext_resource type="Script" uid="uid://chukhbo2bowu2" path="res://Scripts/lose_script.gd" id="1_xmvih"]
+[ext_resource type="PackedScene" uid="uid://dxlk5fq2r0rrf" path="res://Scenes/dialog_ui.tscn" id="2_1rvml"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_cc2lp"]
 
 [sub_resource type="Compositor" id="Compositor_yrmta"]
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_ks51s")
+script = ExtResource("1_xmvih")
 
 [node name="World" type="Node3D" parent="."]
 
@@ -31,7 +31,7 @@ attributes = SubResource("CameraAttributesPractical_cc2lp")
 compositor = SubResource("Compositor_yrmta")
 metadata/_edit_lock_ = true
 
-[node name="DialogUI" parent="World/Camera3D" instance=ExtResource("1_4fna7")]
+[node name="DialogUI" parent="World/Camera3D" instance=ExtResource("2_1rvml")]
 unique_name_in_owner = true
 
 [node name="Lighting" type="Node3D" parent="."]

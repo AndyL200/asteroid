@@ -1,11 +1,11 @@
-class_name threeDialog
+class_name loseDialog
 extends Node3D
 
 @onready var dialog_ui = %DialogUI
 
 var dialog_lines : Array[String] = [ 
-	"??? : sample dialog", 
-	"??? : sample dialog", 
+	"??? : You lost", 
+	"??? : Continue?", 
 	"??? : sample dialog", 
 	"??? : sample dialog", 
 	"??? : sample dialog" ]
