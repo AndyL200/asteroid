@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4jg3nveun4qi"]
+[gd_scene load_steps=6 format=3 uid="uid://b4jg3nveun4qi"]
 
 [ext_resource type="Script" uid="uid://dxgfe6wxj2f2f" path="res://Scripts/win_script.gd" id="1_nmtmr"]
 [ext_resource type="PackedScene" uid="uid://dxlk5fq2r0rrf" path="res://Scenes/dialog_ui.tscn" id="2_q1b4b"]
+[ext_resource type="PackedScene" uid="uid://bpa74oi8eavvd" path="res://Scenes/winSceneLabel.tscn" id="3_q1b4b"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_cc2lp"]
 
@@ -32,6 +33,9 @@ compositor = SubResource("Compositor_yrmta")
 metadata/_edit_lock_ = true
 
 [node name="DialogUI" parent="World/Camera3D" instance=ExtResource("2_q1b4b")]
+unique_name_in_owner = true
+
+[node name="Win" parent="World/Camera3D" instance=ExtResource("3_q1b4b")]
 unique_name_in_owner = true
 
 [node name="Lighting" type="Node3D" parent="."]

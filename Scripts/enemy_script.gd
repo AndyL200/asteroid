@@ -20,8 +20,8 @@ func _ready()->void:
 	
 
 func _physics_process(delta: float) -> void:
-	if (abs((player_position - position).length()) > 100):
-		velocity = (player_position - position).normalized() * speed
+	if (abs((player_position - global_position).length()) > 100):
+		velocity = (player_position - global_position).normalized() * speed
 	else:
 		velocity = Vector2.ZERO
 		firing.emit(self, $bullet_position)

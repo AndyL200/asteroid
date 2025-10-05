@@ -57,7 +57,7 @@ func remove_asteroid(asteroid : CharacterBody2D):
 
 func instantiate_enemy():
 	var enemy : CharacterBody2D = enemy_scene.instantiate()
-	enemy.player_position = player.position
+	enemy.player_position = player.global_position
 	enemy.death.connect(Callable(self, "remove_enemy"))
 	enemy.firing.connect(Callable(self, "on_enemy_ship_firing"))
 	enemy_current += 1

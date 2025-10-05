@@ -2,6 +2,7 @@ class_name loseDialog
 extends Node3D
 
 @onready var dialog_ui = %DialogUI
+@onready var lose_ui = 
 
 var dialog_lines : Array[String] = [ 
 	"??? : You lost", 
@@ -9,17 +10,20 @@ var dialog_lines : Array[String] = [
 	"??? : sample dialog", 
 	"??? : sample dialog", 
 	"??? : sample dialog" ]
+	
 var current_line := 0
 
 func _ready() -> void:
 	process_line(parse_line(dialog_lines[current_line]))
-	current_line = (current_line + 1) % len(dialog_lines)
+	current_line = current_line + 1
 	pass
 	
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("Shoot"):
+	if Input.is_action_just_pressed("Shoot"):
 		process_line(parse_line(dialog_lines[current_line]))
-		current_line = (current_line + 1) % len(dialog_lines)
+		current_line = current_line + 1
+		if current_line >= dialog_lines.size():
+			game_over()
 	pass
 
 func parse_line(line : String) -> Dictionary:
@@ -31,3 +35,5 @@ func parse_line(line : String) -> Dictionary:
 	}
 func process_line(line_info : Dictionary) -> void:
 	dialog_ui.change_line(line_info["speaker"], line_info["dialog"])
+func game_over() -> void:
+	pass

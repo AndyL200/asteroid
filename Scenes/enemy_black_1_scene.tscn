@@ -20,11 +20,15 @@ height = 86.0
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_02qn0")
+metadata/_edit_lock_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_02qn0")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_3gxh8")
+metadata/_edit_lock_ = true
 
 [node name="bullet_position" type="Node2D" parent="."]
+position = Vector2(2, 70)

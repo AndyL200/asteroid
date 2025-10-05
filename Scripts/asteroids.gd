@@ -29,6 +29,7 @@ var screen_position : Vector2
 var screen_ends : Vector2
 var strikes := 0
 var speed := 150
+var max_speed := 250
 signal strikeout(body : CharacterBody2D)
 signal killed(body : CharacterBody2D)
 
@@ -42,6 +43,7 @@ func _ready() -> void:
 	screen_ends = screen_size.end
 	
 	strikeTime.wait_time = 5
+	strikeTime.start()
 	
 	var upper_bound = Vector2(screen_ends.x, screen_ends.y)
 	#redundant
@@ -65,8 +67,8 @@ func _physics_process(delta: float) -> void:
 	#should accelerate at some point
 	#Use a timer for strikes
 	#position += force_direction * speed * delta
-	strikeTime.start()
-			
+	if velocity.length() > max_speed * 2:
+		velocity = velocity.normalized()
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
