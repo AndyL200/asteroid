@@ -6,6 +6,7 @@ var screen_ends : Vector2
 signal outOfBounds(player : CharacterBody2D)
 signal firing(body : CharacterBody2D, shootingPosition : Node2D)
 signal death
+signal health_changed(new_health : int)
 
 var max_speed: float = 300.0
 var acceleration: float = 600.0
@@ -13,6 +14,7 @@ var friction: float = 200.0
 var turn_speed: float = 3.0
 var orientation_offset_deg: float = 90.0
 var health := 3
+var is_invulnerable := false
 
 func _ready() -> void:
 	screen_size = get_viewport_rect()
@@ -43,7 +45,27 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collide = get_slide_collision(i)
-		if collide.get_collider() is CharacterBody2D:
+		if collide.get_collider() is CharacterBody2D and not is_invulnerable:
 			health -= 1
+			health_changed.emit(health)
 			if health == 0:
 				death.emit()
+			else:
+				blink_sprite()
+
+func blink_sprite() -> void:
+	is_invulnerable = true
+	var sprite = $Sprite2D
+	
+	for blink_count in range(5):
+		if not is_inside_tree():
+			return
+		sprite.visible = false
+		await get_tree().create_timer(0.2).timeout
+		if not is_inside_tree():
+			return
+		sprite.visible = true
+		await get_tree().create_timer(0.2).timeout
+	
+	if is_inside_tree():
+		is_invulnerable = false

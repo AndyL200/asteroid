@@ -3,6 +3,7 @@ extends Node2D
 
 #exports
 @export var score_label : Label
+@export var lives_label : Label
 @export var enemy_timer : Timer
 @export var player : CharacterBody2D
 
@@ -71,6 +72,11 @@ func _ready() -> void:
 	enemy_timer.wait_time = 3000
 	enemy_timer.autostart = true
 	
+	# Initialize lives label
+	update_lives_label(player.health)
+	player.health_changed.connect(Callable(self, "update_lives_label"))
+	player.death.connect(Callable(self, "on_player_death"))
+	
 	for i in range(asteroid_count):
 		make_asteroid()
 	pass
@@ -134,3 +140,10 @@ func _on_enemy_ship_firing(body : CharacterBody2D, shoot : Node2D):
 	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
 	$Bullets.add_child(bullet)
 	pass
+
+func update_lives_label(new_health : int) -> void:
+	lives_label.text = "Lives: " + str(new_health)
+
+func on_player_death() -> void:
+	# Game Over - Load the heart to heart scene
+	get_tree().change_scene_to_file("res://Scenes/heart_to_heart.tscn")
