@@ -7,11 +7,10 @@
 radius = 53.0
 height = 106.0
 
-[node name="Asteroid_Template_Big" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
+[node name="Asteroid_Template_Big" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
 z_index = 1
 slide_on_ceiling = false
 script = ExtResource("1_dt6oh")
-strikeTime = NodePath("strikeTime")
 sprite = NodePath("BigSprite1")
 
 [node name="BigSprite1" type="Sprite2D" parent="."]
@@ -21,10 +20,6 @@ texture = ExtResource("2_4rgno")
 position = Vector2(0, -1)
 shape = SubResource("CapsuleShape2D_4uy2u")
 
-[node name="strikeTime" type="Timer" parent="."]
-
 [node name="Container" type="Node2D" parent="."]
 
 [node name="Big" type="Node2D" parent="Container"]
-
-[connection signal="timeout" from="strikeTime" to="." method="_on_strike_time_timeout"]

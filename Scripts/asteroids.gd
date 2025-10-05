@@ -1,7 +1,6 @@
 class_name Asteroid
 extends CharacterBody2D
 
-@export var strikeTime : Timer
 @export var sprite : Sprite2D
 
 var variations = {
@@ -42,9 +41,6 @@ func _ready() -> void:
 	screen_position = screen_size.position
 	screen_ends = screen_size.end
 	
-	strikeTime.wait_time = 5
-	strikeTime.start()
-	
 	var upper_bound = Vector2(screen_ends.x, screen_ends.y)
 	#redundant
 	var lower_bound = Vector2(screen_position.x, screen_position.y)
@@ -67,6 +63,7 @@ func _physics_process(delta: float) -> void:
 	#should accelerate at some point
 	#Use a timer for strikes
 	#position += force_direction * speed * delta
+	if (position.x > screen_ends.x)
 	if velocity.length() > max_speed * 2:
 		velocity = velocity.normalized()
 	move_and_slide()
@@ -76,9 +73,3 @@ func _physics_process(delta: float) -> void:
 		if collider and collider.has_method("_hit_method"):
 			killed.emit(self)
 	pass
-
-
-func _on_strike_time_timeout() -> void:
-	strikeout.emit(self)
-	queue_free()
-	pass # Replace with function body.

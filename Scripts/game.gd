@@ -74,7 +74,7 @@ func _ready() -> void:
 	screen_ends = screen_size.end
 	score_label.position = screen_size.get_center() - Vector2(0, screen_ends.y*0.45)
 	#should start already stopped
-	enemy_timer.wait_time = 5
+	enemy_timer.wait_time = 1
 	enemy_timer.autostart = true
 	
 	# Initialize lives label

@@ -19,6 +19,7 @@ radius = 43.0
 height = 86.0
 
 [node name="Enemy" type="CharacterBody2D"]
+rotation = -6.28319
 script = ExtResource("1_02qn0")
 metadata/_edit_lock_ = true
 
