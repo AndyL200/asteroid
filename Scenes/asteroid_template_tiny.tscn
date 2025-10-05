@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://u1u6tpfy87by"]
+
+[ext_resource type="Script" uid="uid://cp6bini5f43rc" path="res://Scripts/asteroids.gd" id="1_342t0"]
+[ext_resource type="Texture2D" uid="uid://b1o1c2cmadq8q" path="res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_tiny1.png" id="2_342t0"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_342t0"]
+radius = 6.0
+height = 14.0
+
+[node name="Asteroid_Template_Tiny" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
+z_index = 1
+slide_on_ceiling = false
+script = ExtResource("1_342t0")
+strikeTime = NodePath("strikeTime")
+sprite = NodePath("TinySprite")
+
+[node name="TinySprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_342t0")
+metadata/_edit_lock_ = true
+
+[node name="big_1_collide" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_342t0")
+
+[node name="strikeTime" type="Timer" parent="."]
+
+[node name="Container" type="Node2D" parent="."]
+
+[node name="Tiny" type="Node2D" parent="Container"]
+
+[connection signal="timeout" from="strikeTime" to="." method="_on_strike_time_timeout"]

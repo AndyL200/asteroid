@@ -32,7 +32,11 @@ var variations = {
 	}
 }
 
-var variationKeys = ["big1", "big2", "big3", "big4", "med1", "med2", "small1", "small2", "tiny1", "tiny2"]
+@onready var variationKeys = []
+var bigVary = ["big1", "big2", "big3", "big4"]
+var medVary = ["med1", "med2"]
+var smallVary = ["small1", "small2"]
+var tinyVary = ["tiny1", "tiny2"]
 var colorKeys = ["brown", "grey"]
 
 
@@ -46,31 +50,22 @@ signal strikeout(body : CharacterBody2D)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var query = ""
-	print(self.name)
-	if "big" in self.name.to_lower():
-		query = "big"
-	elif "med" in self.name.to_lower():
-		query = "med"
-	elif "small" in self.name.to_lower():
-		query = "small"
-	elif "tiny" in self.name.to_lower():
-		query = "tiny"
-		
-	var q_count = 0
-	var q_size = variationKeys.size()
-	while q_count < q_size:
-		if query not in variationKeys[q_count]:
-			variationKeys.remove_at(q_count)
-			q_size-= 1
-			q_count-=1
-		q_count+=1
+	var type = $Container.get_child(0)
+	if "big" in type.name.to_lower():
+		variationKeys += bigVary
+	elif "med" in type.name.to_lower():
+		variationKeys += medVary
+	elif "small" in type.name.to_lower():
+		variationKeys += smallVary
+	else:
+		variationKeys += tinyVary
 	
 	screen_size = get_viewport_rect()
 	screen_position = screen_size.position
 	screen_ends = screen_size.end
 	
-	strikeTime.wait_time = 3
+	strikeTime.wait_time = 5
+	strikeTime.stop()
 	
 	var upper_bound = Vector2(screen_ends.x, screen_ends.y)
 	#redundant
@@ -90,12 +85,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 	
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	#should accelerate at some point
 	#Use a timer for strikes
-	position += force_direction * speed * delta
+	#position += force_direction * speed * delta
 	if(position.x > screen_ends.x or position.y > screen_ends.y or position.x < screen_position.x or position.y < screen_position.y):
-		strikeTime.start()
+		if strikeTime.is_stopped():
+			strikeTime.start()
+	move_and_slide()
 	pass
 
 

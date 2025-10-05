@@ -6,6 +6,8 @@ extends CharacterBody2D
 var screen_size : Rect2
 var screen_position : Vector2
 var screen_ends : Vector2
+var speed := 150
+var player_position : Vector2
 signal death(body : CharacterBody2D)
 
 func _ready()->void:
@@ -18,4 +20,6 @@ func _ready()->void:
 	
 	
 func _process(delta: float) -> void:
-	position += force_direction * 50 *  delta
+	velocity = (player_position - position).normalized() * speed
+	move_and_slide()
+	pass

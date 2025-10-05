@@ -1,12 +1,22 @@
 class_name Bullet
 extends CharacterBody2D
 
-var force_direction
-var target
-
+var direction
+var pos : Vector2
+var dir : float
+var speed := 650
+var slow := 2
+signal motion_end(body : CharacterBody2D)
 
 func _ready()->void:
-	force_direction = Vector2.ZERO
-	target = Vector2.ZERO
-func _process(delta: float) -> void:
-	position += (force_direction - target) * 5 * delta
+	global_position = pos
+	global_rotation = dir
+	velocity = (Vector2.UP * speed).rotated(dir)
+	$AnimatedSprite2D.play()
+	pass
+func _physics_process(delta: float) -> void:
+	velocity -= Vector2(delta,delta) * slow
+	move_and_slide()
+	if(velocity.length() < 350):
+		motion_end.emit(self)
+	pass

@@ -22,4 +22,8 @@ shape = SubResource("CapsuleShape2D_e3vlv")
 
 [node name="strikeTime" type="Timer" parent="."]
 
+[node name="Container" type="Node2D" parent="."]
+
+[node name="Med" type="Node2D" parent="Container"]
+
 [connection signal="timeout" from="strikeTime" to="." method="_on_strike_time_timeout"]

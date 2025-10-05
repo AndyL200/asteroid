@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4jg3nveun4qi"]
+
+[ext_resource type="PackedScene" uid="uid://dxlk5fq2r0rrf" path="res://Scenes/dialog_ui.tscn" id="1_4fna7"]
+[ext_resource type="Script" uid="uid://dxgfe6wxj2f2f" path="res://Scripts/heart_to_heart.gd" id="1_ks51s"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_cc2lp"]
+
+[sub_resource type="Compositor" id="Compositor_yrmta"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_ks51s")
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="World"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="World/CSGCombiner3D"]
+transform = Transform3D(23.4787, 0, 0, 0, 1, 0, 0, 0, 21.4125, 0, 0, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="World/CSGCombiner3D"]
+transform = Transform3D(0.196211, 0, -1.82964, 0, 4.21339, 0, 0.43359, 0, 0.827958, -6.86519, 2.39886, -7.14766)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="World/CSGCombiner3D"]
+transform = Transform3D(2.05903, 0, -0.517923, 0, 4.65847, 0, 1.24665, 0, 0.855428, -5.94671, 2.7759, 5.0335)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="World/CSGCombiner3D"]
+
+[node name="Camera3D" type="Camera3D" parent="World"]
+transform = Transform3D(-0.00712083, 0, 0.999975, 0, 1, 0, -0.999975, 0, -0.00712083, 1.44445, 1.48781, 0)
+attributes = SubResource("CameraAttributesPractical_cc2lp")
+compositor = SubResource("Compositor_yrmta")
+metadata/_edit_lock_ = true
+
+[node name="DialogUI" parent="World/Camera3D" instance=ExtResource("1_4fna7")]
+unique_name_in_owner = true
+
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(1, 0, 0, 0, 0.0204364, 0.999791, 0, -0.999791, 0.0204364, 0, 20.3082, 0)

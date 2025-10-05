@@ -1,0 +1,150 @@
+[gd_scene load_steps=7 format=3 uid="uid://dxlk5fq2r0rrf"]
+
+[ext_resource type="Script" uid="uid://ho5hvp6wvcc1" path="res://Scripts/dialog_ui.gd" id="1_oixmp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhfkb"]
+bg_color = Color(0, 0, 0, 0.333333)
+border_width_top = 2
+border_color = Color(2.11775e-06, 0.957663, 0.43274, 1)
+corner_detail = 10
+
+[sub_resource type="Theme" id="Theme_oixmp"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_mhfkb")
+
+[sub_resource type="Theme" id="Theme_mhfkb"]
+
+[sub_resource type="FontFile" id="FontFile_mhfkb"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
+cache/0/18/0/ascent = 0.0
+cache/0/18/0/descent = 0.0
+cache/0/18/0/underline_position = 0.0
+cache/0/18/0/underline_thickness = 0.0
+cache/0/18/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/21/0/ascent = 0.0
+cache/0/21/0/descent = 0.0
+cache/0/21/0/underline_position = 0.0
+cache/0/21/0/underline_thickness = 0.0
+cache/0/21/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/25/0/ascent = 0.0
+cache/0/25/0/descent = 0.0
+cache/0/25/0/underline_position = 0.0
+cache/0/25/0/underline_thickness = 0.0
+cache/0/25/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_oixmp"]
+font = SubResource("FontFile_mhfkb")
+font_size = 25
+font_color = Color(0, 0, 0, 1)
+outline_color = Color(0, 0, 0, 1)
+
+[node name="DialogUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oixmp")
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -153.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_oixmp")
+metadata/_edit_lock_ = true
+
+[node name="Dialog" type="RichTextLabel" parent="PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_mhfkb")
+bbcode_enabled = true
+text = "This is some sample [wave]text[/wave]"
+
+[node name="Speaker" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -192.0
+offset_right = 150.0
+offset_bottom = -152.0
+grow_vertical = 0
+focus_neighbor_bottom = NodePath("../PanelContainer")
+
+[node name="Polygon2D" type="Polygon2D" parent="Speaker"]
+color = Color(0, 0.956863, 0.431373, 1)
+polygon = PackedVector2Array(0, 0, 0, 40, 200, 40, 150, 0)
+
+[node name="speaker_name" type="Label" parent="Speaker"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -17.0
+offset_right = 33.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Name"
+label_settings = SubResource("LabelSettings_oixmp")
+
+[node name="resume_point" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -58.0
+offset_right = -62.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Resume" type="Polygon2D" parent="resume_point"]
+polygon = PackedVector2Array(0, 0, 50, 25, 0, 50)

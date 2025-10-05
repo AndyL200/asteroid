@@ -39,7 +39,7 @@ shape = SubResource("CapsuleShape2D_1phco")
 metadata/_edit_lock_ = true
 
 [node name="Pellet" type="Node2D" parent="SpaceShip"]
-position = Vector2(10, -100)
+position = Vector2(10, -75)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1

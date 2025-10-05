@@ -22,8 +22,10 @@ var enemy_scene := preload("res://Scenes/enemy_black_1_scene.tscn")
 var asteroid_scene_big := preload("res://Scenes/asteroid_template_big.tscn")
 var asteroid_scene_med := preload("res://Scenes/asteroid_template_med.tscn")
 var asteroid_scene_small := preload("res://Scenes/asteroid_template_small.tscn")
+var asteroid_scene_tiny := preload("res://Scenes/asteroid_template_tiny.tscn")
+var bullet_scene := preload("res://Scenes/bullet_scene.tscn")
+
 var asteroids = [asteroid_scene_big, asteroid_scene_med, asteroid_scene_small]
-#var asteroid_scene_tiny := preload("res://Scenes/asteroid_template_tiny.tscn")
 
 
 #counts
@@ -39,8 +41,7 @@ func make_asteroid():
 	$Asteroids.add_child(a)
 
 	#set the force direction here
-	a.force_direction = (player.position - a.position).normalized()
-	print(a.force_direction)
+	a.velocity = (player.position - a.position).normalized() * a.speed
 	a.strikeout.connect(Callable(self, "remove_asteroid"))
 	
 func remove_asteroid(asteroid : CharacterBody2D):
@@ -50,7 +51,7 @@ func remove_asteroid(asteroid : CharacterBody2D):
 
 func instantiate_enemy():
 	var enemy : CharacterBody2D = enemy_scene.instantiate()
-	enemy.force_direction = (player.position - enemy.position).normalized()
+	enemy.player_position = player.position
 	enemy.death.connect(Callable(self, "remove_enemy"))
 	enemy_current += 1
 	$Enemies.add_child(enemy)
@@ -75,7 +76,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	#TODO(Interpolate an angle for each swap)
-	
+	for e in $Enemies.get_children():
+		e.player_position = player.position
 	pass
 
 
@@ -100,6 +102,10 @@ func _on_space_ship_out_of_bounds(player: CharacterBody2D) -> void:
 		$Asteroids.remove_child(a)
 	for i in range(asteroid_count):
 		make_asteroid()
+	for e in $Enemies.get_children():
+		$Enemies.remove_child(e)
+	for b in $Bullets.get_children():
+		$Bullets.remove_child(b)
 	pass # Replace with function body.
 
 
@@ -107,8 +113,16 @@ func _on_enemy_spawn_timer_timeout() -> void:
 	if enemy_current < 5:
 		instantiate_enemy()
 	pass # Replace with function body.
+func bullet_stopped(bullet : CharacterBody2D) -> void:
+	$Bullets.remove_child(bullet)
+	bullet.queue_free()
 
-
-
-func _on_space_ship_firing() -> void:
+func _on_space_ship_firing(body : CharacterBody2D, shoot : Node2D) -> void:
+	print(body.rotation * 180/PI)
+	var bullet = bullet_scene.instantiate()
+	bullet.dir = body.global_rotation
+	bullet.pos = shoot.global_position
+	print(bullet.pos)
+	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
+	$Bullets.add_child(bullet)
 	pass # Replace with function body.

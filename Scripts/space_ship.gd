@@ -4,7 +4,7 @@ var screen_size : Rect2
 var screen_position : Vector2
 var screen_ends : Vector2
 signal outOfBounds(player : CharacterBody2D)
-signal firing
+signal firing(body : CharacterBody2D, shootingPosition : Node2D)
 
 var max_speed: float = 300.0
 var acceleration: float = 600.0
@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
-	if Input.is_action_pressed("Shoot"):
-		firing.emit()
+	if Input.is_action_just_pressed("Shoot"):
+		firing.emit(self, $Pellet)
 
 	move_and_slide()	
