@@ -30,20 +30,28 @@ var asteroids = [asteroid_scene_big, asteroid_scene_med, asteroid_scene_small]
 
 #counts
 var asteroid_count = 10
-
+var score = 0
 #counter (may need to be atomic)
 var enemy_current = 0
+
+func update_score(points : int):
+	score += points
+	score_label.text = str(score)
 
 func make_asteroid():
 	var asteroid_scene = asteroids[randi() % 3]
 	var a = asteroid_scene.instantiate()
 	#ready function called when added to scene tree
 	$Asteroids.add_child(a)
-
+	
 	#set the force direction here
 	a.velocity = (player.position - a.position).normalized() * a.speed
 	a.strikeout.connect(Callable(self, "remove_asteroid"))
-	
+	a.killed.connect(Callable(self, "dead_asteroid"))
+
+func dead_asteroid(body : CharacterBody2D):
+	remove_asteroid(body)
+	update_score(body.val)
 func remove_asteroid(asteroid : CharacterBody2D):
 	$Asteroids.remove_child(asteroid)
 	#asychronus code not guarded by mutex
