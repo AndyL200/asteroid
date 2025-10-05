@@ -12,9 +12,10 @@ height = 110.0
 [sub_resource type="LabelSettings" id="LabelSettings_uoyx2"]
 font_size = 25
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("score_label", "enemy_timer", "player")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("score_label", "lives_label", "enemy_timer", "player")]
 script = ExtResource("1_kc6at")
 score_label = NodePath("Score")
+lives_label = NodePath("Lives")
 enemy_timer = NodePath("EnemySpawnTimer")
 player = NodePath("SpaceShip")
 metadata/_edit_lock_ = true
@@ -65,12 +66,22 @@ offset_bottom = 69.0
 text = "0"
 label_settings = SubResource("LabelSettings_uoyx2")
 
+[node name="Lives" type="Label" parent="."]
+offset_left = 34.0
+offset_top = 34.0
+offset_right = 120.0
+offset_bottom = 69.0
+text = "Lives: 3"
+label_settings = SubResource("LabelSettings_uoyx2")
+
 [node name="Asteroids" type="Node2D" parent="."]
 
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Bullets" type="Node2D" parent="."]
 
+[connection signal="death" from="SpaceShip" to="." method="on_player_death"]
 [connection signal="firing" from="SpaceShip" to="." method="_on_space_ship_firing"]
+[connection signal="health_changed" from="SpaceShip" to="." method="update_lives_label"]
 [connection signal="outOfBounds" from="SpaceShip" to="." method="_on_space_ship_out_of_bounds"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
