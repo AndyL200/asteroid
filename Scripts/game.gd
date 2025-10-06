@@ -50,6 +50,14 @@ func make_asteroid():
 
 func dead_asteroid(body : CharacterBody2D):
 	if body in $Asteroids.get_children():
+		# Play asteroid destruction sound (using zap sound effect)
+		var destruction_sound = AudioStreamPlayer.new()
+		destruction_sound.stream = preload("res://Asset/KenneySpaceShooter/Bonus/sfx_zap.ogg")
+		add_child(destruction_sound)
+		destruction_sound.play()
+		# Clean up sound after playing
+		destruction_sound.finished.connect(destruction_sound.queue_free)
+		
 		update_score(body.val)
 	remove_asteroid(body)
 func remove_asteroid(asteroid : CharacterBody2D):

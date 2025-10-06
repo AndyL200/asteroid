@@ -40,6 +40,7 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 	
 	if Input.is_action_just_pressed("Shoot"):
+		$shootingSound.play()  # Play shooting sound effect
 		firing.emit(self, $Pellet)
 		$shootingSound.play()
 	move_and_slide()
@@ -60,6 +61,9 @@ func take_damage(damage_amount: int) -> void:
 	if is_invulnerable:
 		return
 		
+	# Play damage sound effect
+	$damageSound.play()
+	
 	health -= damage_amount
 	health_changed.emit(health)
 	$damageSound.play()
