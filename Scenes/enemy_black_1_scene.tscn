@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6nnonk14qops"]
+[gd_scene load_steps=6 format=3 uid="uid://b6nnonk14qops"]
 
 [ext_resource type="Script" uid="uid://dn7mr3ty82eui" path="res://Scripts/enemy_script.gd" id="1_02qn0"]
 [ext_resource type="Texture2D" uid="uid://dqhbemk5ovs4e" path="res://Asset/KenneySpaceShooter/PNG/Enemies/enemyBlack1.png" id="1_rhshu"]
+[ext_resource type="AudioStream" uid="uid://bvr3m8sf7xgjo" path="res://Asset/KenneySpaceShooter/Bonus/sfx_zap.ogg" id="3_3gxh8"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_02qn0"]
 animations = [{
@@ -34,4 +35,5 @@ metadata/_edit_lock_ = true
 [node name="bullet_position" type="Node2D" parent="."]
 position = Vector2(2, 70)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="enemy_shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_3gxh8")

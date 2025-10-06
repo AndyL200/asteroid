@@ -121,8 +121,8 @@ func _on_space_ship_out_of_bounds(player: CharacterBody2D) -> void:
 		$Asteroids.remove_child(a)
 	for i in range(asteroid_count):
 		make_asteroid()
-	for e in $Enemies.get_children():
-		$Enemies.remove_child(e)
+	#for e in $Enemies.get_children():
+		#$Enemies.remove_child(e)
 	for b in $Bullets.get_children():
 		$Bullets.remove_child(b)
 	pass # Replace with function body.

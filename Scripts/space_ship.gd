@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("Shoot"):
 		firing.emit(self, $Pellet)
-
+		$shootingSound.play()
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collide = get_slide_collision(i)
@@ -62,6 +62,7 @@ func take_damage(damage_amount: int) -> void:
 		
 	health -= damage_amount
 	health_changed.emit(health)
+	$damageSound.play()
 	
 	if health <= 0:
 		death.emit()

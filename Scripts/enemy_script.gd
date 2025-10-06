@@ -25,6 +25,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 		firing.emit(self, $bullet_position)
+		$enemy_shoot.play()
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)

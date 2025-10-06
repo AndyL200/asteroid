@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://bw8xemkmci8j1"]
 
-[ext_resource type="Script" uid="uid://hvhhuli3j653" path="res://Scripts/enemy_bullet_script.gd" id="1_oevp4"]
-[ext_resource type="Texture2D" uid="uid://qj28buxppr72" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed01.png" id="2_q0jbq"]
-[ext_resource type="Texture2D" uid="uid://fa0ul1schb4j" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed05.png" id="3_ryyl9"]
-[ext_resource type="Texture2D" uid="uid://c1kdufqdr0atm" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed06.png" id="4_1lfy4"]
-[ext_resource type="Texture2D" uid="uid://b54lt3misisv6" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed04.png" id="5_oevp4"]
-[ext_resource type="Texture2D" uid="uid://bchb23my3u62s" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed07.png" id="6_uvrfy"]
+[ext_resource type="Script" uid="uid://cqhtjnyi8bsgv" path="res://Scripts/enemy_bullet_script.gd" id="1_oevp4"]
+[ext_resource type="Texture2D" uid="uid://cfui67ncc0i0s" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed01.png" id="2_q0jbq"]
+[ext_resource type="Texture2D" uid="uid://bbqxjoxg7bvdo" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed05.png" id="3_ryyl9"]
+[ext_resource type="Texture2D" uid="uid://y6ekbv3x5kp8" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed06.png" id="4_1lfy4"]
+[ext_resource type="Texture2D" uid="uid://b4e127c4g585s" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed04.png" id="5_oevp4"]
+[ext_resource type="Texture2D" uid="uid://dc5s24cbh7kre" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed07.png" id="6_uvrfy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lh6l2"]
 size = Vector2(11, 51)
