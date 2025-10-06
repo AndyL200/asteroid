@@ -71,6 +71,15 @@ func _physics_process(delta: float) -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
+		
+		# Check if hit by bullet
 		if collider and collider.has_method("_hit_method"):
 			killed.emit(self)
+		# Check if colliding with another asteroid for bouncing
+		elif collider and collider.get_script() == get_script():
+			# Simple bounce physics - reverse velocity component along collision normal
+			var collision_normal = collision.get_normal()
+			velocity = velocity.bounce(collision_normal)
+			# Add some random variation to prevent perfect bouncing cycles
+			velocity += Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	pass
