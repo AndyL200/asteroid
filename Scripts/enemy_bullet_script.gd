@@ -11,6 +11,7 @@ var min_velocity: float = 150.0
 
 # Bullet identification
 var is_enemy_bullet: bool = true
+var shooter_reference: Node2D = null  # Reference to the enemy that fired this bullet
 
 # Signals
 signal motion_end(body: CharacterBody2D)
@@ -39,12 +40,22 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		var collider = collision.get_collider()
 		if collider:
+			# Ignore collision with the enemy that fired this bullet
+			if shooter_reference and collider == shooter_reference:
+				# Skip collision with shooter - bullet passes through
+				return
+			
 			# Check if it's the player ship by looking for health_changed signal and take_damage method
 			if collider.has_signal("health_changed") and collider.has_method("take_damage"):
 				damage_player(collider)
+				# Bullet expires after hitting player
+				expire_bullet()
+				return
 			
-		# Bullet expires on any collision
-		expire_bullet()
+			# Check if colliding with asteroids or other enemies (not the shooter)
+			if collider != shooter_reference:
+				# Bullet expires on collision with other objects
+				expire_bullet()
 	
 	# Check if bullet should expire due to low velocity
 	if velocity.length() < min_velocity:

@@ -153,13 +153,18 @@ func _on_enemy_ship_firing(body : CharacterBody2D, shoot : Node2D):
 	$Bullets.add_child(bullet)
 	pass
 
-func on_enhanced_enemy_firing(body : CharacterBody2D, muzzle : Node2D):
+func on_enhanced_enemy_firing(body : CharacterBody2D, spawn_marker : Node2D):
 	"""Handle firing from enhanced enemies with red bullets"""
 	var bullet = enemy_bullet_scene.instantiate()
-	bullet.dir = body.global_rotation
-	bullet.pos = muzzle.global_position
-	bullet.speed = 450  # Match player bullet speed
-	bullet.is_enemy_bullet = true
+	
+	# Configure bullet properties using the calculated spawn position from enemy
+	bullet.dir = body.global_rotation  # Fire in direction enemy is facing
+	bullet.pos = spawn_marker.global_position  # Use calculated spawn position (in front of enemy)
+	bullet.speed = 450  # Match player bullet speed  
+	bullet.is_enemy_bullet = true  # Mark as enemy bullet for collision detection
+	bullet.shooter_reference = body  # Pass shooter reference to prevent self-collision
+	
+	# Connect cleanup signal and add to scene
 	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
 	$Bullets.add_child(bullet)
 	pass

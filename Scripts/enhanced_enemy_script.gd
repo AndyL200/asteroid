@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var fire_rate: float = 1.0  # Bullets per second
 @export var engagement_distance: float = 400.0  # Distance at which enemy starts engaging
 @export var bullet_speed: float = 450.0
+@export var bullet_spawn_offset: float = 50.0  # Distance in front of enemy to spawn bullets
 
 # Screen boundary variables
 var screen_size : Rect2
@@ -123,23 +124,22 @@ func _on_fire_timer_timeout() -> void:
 		fire_bullet()
 
 func fire_bullet() -> void:
-	"""Create and fire a red bullet toward the player"""
-	var bullet = red_bullet_scene.instantiate()
+	"""Calculate bullet spawn position and emit firing signal to game manager"""
 	
-	# Set bullet properties
-	bullet.pos = $Muzzle.global_position  # Spawn from muzzle position
-	bullet.dir = rotation  # Fire in direction enemy is facing
-	bullet.speed = bullet_speed
-	bullet.is_enemy_bullet = true  # Mark as enemy bullet for collision detection
+	# Calculate spawn position in front of enemy based on facing direction
+	# Enemy faces toward player, so forward vector is based on current rotation
+	var forward_direction = Vector2.UP.rotated(rotation)  # Up vector rotated by enemy's facing angle
+	var spawn_position = global_position + (forward_direction * bullet_spawn_offset)
 	
-	# Connect bullet cleanup signal
-	bullet.motion_end.connect(Callable(self, "_on_bullet_expired"))
+	# Create a temporary marker at the calculated spawn position for the game manager
+	var spawn_marker = Marker2D.new()
+	spawn_marker.global_position = spawn_position
 	
-	# Emit firing signal to game manager for adding to scene
-	firing.emit(self, $Muzzle)
+	# Emit firing signal to game manager with calculated spawn position
+	firing.emit(self, spawn_marker)
 	
-	# Alternative: Add directly to bullets container if reference available
-	# get_node("/root/Game/Bullets").add_child(bullet)
+	# Clean up the temporary marker after a short delay
+	get_tree().process_frame.connect(spawn_marker.queue_free, CONNECT_ONE_SHOT)
 
 func _on_bullet_expired(bullet: CharacterBody2D) -> void:
 	"""Handle bullet cleanup when it expires"""
