@@ -35,5 +35,8 @@ metadata/_edit_lock_ = true
 [node name="bullet_position" type="Node2D" parent="."]
 position = Vector2(2, 70)
 
+[node name="Muzzle" type="Marker2D" parent="."]
+position = Vector2(0, -65)
+
 [node name="enemy_shoot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_3gxh8")

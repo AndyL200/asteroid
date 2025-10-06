@@ -75,8 +75,8 @@ func _physics_process(delta: float) -> void:
 		# Check if hit by bullet
 		if collider and collider.has_method("_hit_method"):
 			killed.emit(self)
-		# Check if colliding with another asteroid for bouncing
-		elif collider and collider.get_script() == get_script():
+		# Check if colliding with another asteroid for bouncing (ignore enemies)
+		elif collider and collider is Asteroid:
 			# Simple bounce physics - reverse velocity component along collision normal
 			var collision_normal = collision.get_normal()
 			velocity = velocity.bounce(collision_normal)
