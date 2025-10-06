@@ -6,7 +6,7 @@ extends Node3D
 
 var dialog_lines : Array[String] = [ 
 	"??? : You win", 
-	"??? : Fuck offf", 
+	"??? : Play again", 
 	"??? : sample dialog", 
 	"??? : sample dialog", 
 	"??? : sample dialog" ]

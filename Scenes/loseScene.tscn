@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu2pvswn5osf2"]
+[gd_scene load_steps=7 format=3 uid="uid://bu2pvswn5osf2"]
 
 [ext_resource type="Script" uid="uid://chukhbo2bowu2" path="res://Scripts/lose_script.gd" id="1_xmvih"]
 [ext_resource type="PackedScene" uid="uid://dxlk5fq2r0rrf" path="res://Scenes/dialog_ui.tscn" id="2_1rvml"]
 [ext_resource type="PackedScene" uid="uid://dxpls7y4gg0ko" path="res://Scenes/lose_scene_label.tscn" id="3_1rvml"]
+[ext_resource type="AudioStream" uid="uid://dtytey40ig5uh" path="res://Music/space_gameover(2).mp3" id="4_21510"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_cc2lp"]
 
@@ -42,3 +43,7 @@ unique_name_in_owner = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
 transform = Transform3D(1, 0, 0, 0, 0.0204364, 0.999791, 0, -0.999791, 0.0204364, 0, 20.3082, 0)
+
+[node name="loseSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_21510")
+autoplay = true

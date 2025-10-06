@@ -33,3 +33,5 @@ metadata/_edit_lock_ = true
 
 [node name="bullet_position" type="Node2D" parent="."]
 position = Vector2(2, 70)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

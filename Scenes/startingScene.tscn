@@ -1,15 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://jlthugjebc3q"]
+[gd_scene load_steps=11 format=3 uid="uid://jlthugjebc3q"]
 
 [ext_resource type="Script" uid="uid://c4g5msy8fqmat" path="res://Scripts/game.gd" id="1_kc6at"]
 [ext_resource type="Texture2D" uid="uid://c5tevw2qc6tgp" path="res://Asset/KenneySpaceShooter/PNG/playerShip3_blue.png" id="2_28psf"]
 [ext_resource type="Script" uid="uid://dtfh888gv8r3r" path="res://Scripts/space_ship.gd" id="2_c88mg"]
 [ext_resource type="Texture2D" uid="uid://day7fbkmtx5ph" path="res://Asset/KenneySpaceShooter/Backgrounds/blue.png" id="3_c88mg"]
+[ext_resource type="AudioStream" uid="uid://drmvaasg4gcld" path="res://Asset/KenneySpaceShooter/Bonus/sfx_laser1.ogg" id="4_kc6at"]
+[ext_resource type="AudioStream" uid="uid://dkl8ku1je0jfp" path="res://Asset/KenneySpaceShooter/Bonus/sfx_shieldDown.ogg" id="5_28psf"]
+[ext_resource type="FontFile" uid="uid://dvd8qj2q5bx0g" path="res://Asset/KenneySpaceShooter/Bonus/kenvector_future.ttf" id="7_c88mg"]
+[ext_resource type="AudioStream" uid="uid://t8q5i3mdu3rc" path="res://Music/gameplay.mp3" id="8_28psf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1phco"]
 radius = 55.0
 height = 110.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_uoyx2"]
+font = ExtResource("7_c88mg")
 font_size = 25
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("score_label", "lives_label", "enemy_timer", "player")]
@@ -41,6 +46,12 @@ metadata/_edit_lock_ = true
 
 [node name="Pellet" type="Node2D" parent="SpaceShip"]
 position = Vector2(10, -100)
+
+[node name="shootingSound" type="AudioStreamPlayer" parent="SpaceShip"]
+stream = ExtResource("4_kc6at")
+
+[node name="damageSound" type="AudioStreamPlayer" parent="SpaceShip"]
+stream = ExtResource("5_28psf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -79,6 +90,10 @@ label_settings = SubResource("LabelSettings_uoyx2")
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Bullets" type="Node2D" parent="."]
+
+[node name="gameplayAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_28psf")
+autoplay = true
 
 [connection signal="death" from="SpaceShip" to="." method="on_player_death"]
 [connection signal="firing" from="SpaceShip" to="." method="_on_space_ship_firing"]

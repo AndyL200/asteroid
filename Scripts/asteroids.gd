@@ -26,7 +26,6 @@ var colorKeys = ["brown", "grey"]
 var screen_size : Rect2
 var screen_position : Vector2
 var screen_ends : Vector2
-var strikes := 0
 var speed := 150
 var max_speed := 250
 signal strikeout(body : CharacterBody2D)
@@ -63,7 +62,9 @@ func _physics_process(delta: float) -> void:
 	#should accelerate at some point
 	#Use a timer for strikes
 	#position += force_direction * speed * delta
-	if (position.x > screen_ends.x)
+	if (position.x > screen_ends.x + 200 or position.x < screen_position.x - 200 or position.y > screen_ends.y + 200 or position.y < screen_position.y - 200):
+		strikeout.emit(self)
+		set_physics_process(false)
 	if velocity.length() > max_speed * 2:
 		velocity = velocity.normalized()
 	move_and_slide()

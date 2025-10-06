@@ -24,7 +24,7 @@ var asteroid_scene_big := preload("res://Scenes/asteroid_template_big.tscn")
 var bullet_scene := preload("res://Scenes/bullet_scene.tscn")
 
 #counts
-var asteroid_count = 10
+var asteroid_count = 5
 var score = 0
 #counter (may need to be atomic)
 var enemy_current = 0
