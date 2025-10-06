@@ -45,13 +45,28 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	for i in get_slide_collision_count():
 		var collide = get_slide_collision(i)
-		if collide.get_collider() is CharacterBody2D and not is_invulnerable:
-			health -= 1
-			health_changed.emit(health)
-			if health == 0:
-				death.emit()
+		var collider = collide.get_collider()
+		if collider is CharacterBody2D and not is_invulnerable:
+			# Check if it's an enemy bullet
+			if collider.has_method("is_enemy_bullet_check") and collider.is_enemy_bullet_check():
+				take_damage(1)
+				collider.expire_bullet()  # Destroy the bullet on impact
 			else:
-				blink_sprite()
+				# Regular collision (asteroid, enemy)
+				take_damage(1)
+
+func take_damage(damage_amount: int) -> void:
+	"""Centralized damage handling method"""
+	if is_invulnerable:
+		return
+		
+	health -= damage_amount
+	health_changed.emit(health)
+	
+	if health <= 0:
+		death.emit()
+	else:
+		blink_sprite()
 
 func blink_sprite() -> void:
 	is_invulnerable = true

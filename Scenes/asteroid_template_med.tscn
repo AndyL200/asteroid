@@ -7,11 +7,10 @@
 radius = 15.0
 height = 36.0
 
-[node name="Asteroid_Template_Med" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
+[node name="Asteroid_Template_Med" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
 z_index = 1
 slide_on_ceiling = false
 script = ExtResource("1_e3vlv")
-strikeTime = NodePath("strikeTime")
 sprite = NodePath("MedSprite")
 
 [node name="MedSprite" type="Sprite2D" parent="."]

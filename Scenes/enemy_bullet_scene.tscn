@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://bw8xemkmci8j1"]
+
+[ext_resource type="Script" uid="uid://hvhhuli3j653" path="res://Scripts/enemy_bullet_script.gd" id="1_oevp4"]
+[ext_resource type="Texture2D" uid="uid://qj28buxppr72" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed01.png" id="2_q0jbq"]
+[ext_resource type="Texture2D" uid="uid://fa0ul1schb4j" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed05.png" id="3_ryyl9"]
+[ext_resource type="Texture2D" uid="uid://c1kdufqdr0atm" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed06.png" id="4_1lfy4"]
+[ext_resource type="Texture2D" uid="uid://b54lt3misisv6" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed04.png" id="5_oevp4"]
+[ext_resource type="Texture2D" uid="uid://bchb23my3u62s" path="res://Asset/KenneySpaceShooter/PNG/Lasers/laserRed07.png" id="6_uvrfy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lh6l2"]
+size = Vector2(11, 51)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b2bh4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q0jbq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uvrfy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ryyl9")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1lfy4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_oevp4")
+}],
+"loop": true,
+"name": &"red_shooting",
+"speed": 10.0
+}]
+
+[node name="EnemyBullet" type="CharacterBody2D"]
+script = ExtResource("1_oevp4")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_lh6l2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_b2bh4")
+animation = &"red_shooting"
+metadata/_edit_lock_ = true

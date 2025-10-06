@@ -10,6 +10,14 @@ signal motion_end(body : CharacterBody2D)
 
 func _hit_method():
 	pass
+
+func is_player_bullet() -> bool:
+	"""Identifies this as a player bullet (not enemy bullet)"""
+	return true
+
+func is_enemy_bullet_check() -> bool:
+	"""Identifies this as not an enemy bullet"""
+	return false
 func _ready()->void:
 	global_position = pos
 	global_rotation = dir

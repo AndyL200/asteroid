@@ -7,11 +7,10 @@
 radius = 12.0
 height = 24.0
 
-[node name="Asteroid_Template_Small" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
+[node name="Asteroid_Template_Small" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
 z_index = 1
 slide_on_ceiling = false
 script = ExtResource("1_qx2c8")
-strikeTime = NodePath("strikeTime")
 sprite = NodePath("small_sprite")
 metadata/_edit_lock_ = true
 

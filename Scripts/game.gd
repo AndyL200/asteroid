@@ -20,8 +20,10 @@ var screen_ends : Vector2
 
 #scenes
 var enemy_scene := preload("res://Scenes/enemy_black_1_scene.tscn")
+var enhanced_enemy_scene := preload("res://Scenes/enhanced_enemy_scene.tscn")
 var asteroid_scene_big := preload("res://Scenes/asteroid_template_big.tscn")
 var bullet_scene := preload("res://Scenes/bullet_scene.tscn")
+var enemy_bullet_scene := preload("res://Scenes/enemy_bullet_scene.tscn")
 
 #counts
 var asteroid_count = 5
@@ -56,10 +58,10 @@ func remove_asteroid(asteroid : CharacterBody2D):
 	make_asteroid()
 
 func instantiate_enemy():
-	var enemy : CharacterBody2D = enemy_scene.instantiate()
-	enemy.player_position = player.global_position
+	var enemy : CharacterBody2D = enhanced_enemy_scene.instantiate()
+	enemy.set_player_position(player.global_position)
 	enemy.death.connect(Callable(self, "remove_enemy"))
-	enemy.firing.connect(Callable(self, "on_enemy_ship_firing"))
+	enemy.firing.connect(Callable(self, "on_enhanced_enemy_firing"))
 	enemy_current += 1
 	$Enemies.add_child(enemy)
 func remove_enemy(enemy : Node2D):
@@ -89,7 +91,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#TODO(Interpolate an angle for each swap)
 	for e in $Enemies.get_children():
-		e.player_position = player.position
+		# Update player position for enhanced enemies
+		if e.has_method("set_player_position"):
+			e.set_player_position(player.position)
+		else:
+			# Fallback for old enemy type
+			e.player_position = player.position
 	pass
 
 
@@ -142,6 +149,17 @@ func _on_enemy_ship_firing(body : CharacterBody2D, shoot : Node2D):
 	var bullet = bullet_scene.instantiate()
 	bullet.dir = body.global_rotation
 	bullet.pos = shoot.global_position
+	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
+	$Bullets.add_child(bullet)
+	pass
+
+func on_enhanced_enemy_firing(body : CharacterBody2D, muzzle : Node2D):
+	"""Handle firing from enhanced enemies with red bullets"""
+	var bullet = enemy_bullet_scene.instantiate()
+	bullet.dir = body.global_rotation
+	bullet.pos = muzzle.global_position
+	bullet.speed = 450  # Match player bullet speed
+	bullet.is_enemy_bullet = true
 	bullet.motion_end.connect(Callable(self, "bullet_stopped"))
 	$Bullets.add_child(bullet)
 	pass

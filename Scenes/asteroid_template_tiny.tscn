@@ -7,11 +7,10 @@
 radius = 6.0
 height = 14.0
 
-[node name="Asteroid_Template_Tiny" type="CharacterBody2D" node_paths=PackedStringArray("strikeTime", "sprite")]
+[node name="Asteroid_Template_Tiny" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
 z_index = 1
 slide_on_ceiling = false
 script = ExtResource("1_342t0")
-strikeTime = NodePath("strikeTime")
 sprite = NodePath("TinySprite")
 
 [node name="TinySprite" type="Sprite2D" parent="."]
