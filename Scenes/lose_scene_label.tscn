@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxpls7y4gg0ko"]
+[gd_scene load_steps=4 format=3 uid="uid://dxpls7y4gg0ko"]
+
+[ext_resource type="Script" uid="uid://vtopq1ea0vjf" path="res://Scenes/lose_scene_script.gd" id="1_3buoo"]
 
 [sub_resource type="FontFile" id="FontFile_rayds"]
 cache/0/17/0/ascent = 0.0
@@ -28,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_3buoo")
 
 [node name="lose_scene_label" type="Label" parent="."]
 layout_mode = 1
@@ -39,3 +42,33 @@ text = "YOU LOSE"
 label_settings = SubResource("LabelSettings_3buoo")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="buttons" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -167.0
+offset_right = 18.0
+offset_bottom = -127.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="quitButton" type="Button" parent="buttons"]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+text = "QUIT"
+
+[node name="continueButton" type="Button" parent="buttons"]
+layout_mode = 0
+offset_left = -116.0
+offset_right = -16.0
+offset_bottom = 100.0
+text = "Continue"
+
+[connection signal="pressed" from="buttons/quitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="buttons/continueButton" to="." method="_on_continue_button_pressed"]
