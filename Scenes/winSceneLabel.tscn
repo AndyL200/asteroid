@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://khn80mfshev1" path="res://Scenes/win_scene_script.gd" id="1_gnwon"]
 
 [sub_resource type="FontFile" id="FontFile_q1tjh"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/17/0/ascent = 0.0
 cache/0/17/0/descent = 0.0
 cache/0/17/0/underline_position = 0.0

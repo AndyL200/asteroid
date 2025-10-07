@@ -1,7 +1,7 @@
 class_name loseDialog
 extends Node3D
 
-@onready var dialog_ui = %DialogUI
+@onready var dialogui = %DialogUI
 @onready var lose_ui = %Lose
 
 var dialog_lines : Array[String] = [ 
@@ -36,7 +36,7 @@ func parse_line(line : String) -> Dictionary:
 		"dialog" : line_info[1]
 	}
 func process_line(line_info : Dictionary) -> void:
-	dialog_ui.change_line(line_info["speaker"], line_info["dialog"])
+	dialogui.change_line(line_info["speaker"], line_info["dialog"])
 func game_over() -> void:
 	lose_ui.visible = true
 	pass

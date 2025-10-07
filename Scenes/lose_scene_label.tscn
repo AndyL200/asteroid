@@ -1,8 +1,11 @@
 [gd_scene load_steps=4 format=3 uid="uid://dxpls7y4gg0ko"]
 
-[ext_resource type="Script" uid="uid://vtopq1ea0vjf" path="res://Scenes/lose_scene_script.gd" id="1_3buoo"]
+[ext_resource type="Script" uid="uid://bwr7elkcvhc3j" path="res://Scripts/lose_scene_script.gd" id="1_3buoo"]
 
 [sub_resource type="FontFile" id="FontFile_rayds"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
 cache/0/17/0/ascent = 0.0
 cache/0/17/0/descent = 0.0
 cache/0/17/0/underline_position = 0.0

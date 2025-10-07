@@ -77,10 +77,10 @@ func damage_player(player: CharacterBody2D) -> void:
 func expire_bullet() -> void:
 	"""Clean up bullet when it expires"""
 	motion_end.emit(self)
-
-func _hit_method() -> void:
-	"""Interface method for collision identification - enemy bullets don't get destroyed by asteroids/enemies"""
-	pass
+#
+#func _hit_method() -> void:
+	#"""Interface method for collision identification - enemy bullets don't get destroyed by asteroids/enemies"""
+	#pass
 
 func is_player_bullet() -> bool:
 	"""Identifies this as an enemy bullet (not player bullet)"""

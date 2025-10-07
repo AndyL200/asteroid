@@ -10,7 +10,21 @@ extends Node2D
 
 #Notes
 #TODO(make a scene for the enemies)
-
+var variations = {
+	"brown" : {
+	"big1" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big1.png"), 
+	"big2" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big2.png"),
+	"big3" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big3.png"),
+	"big4" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big4.png"),
+	},
+	
+	"grey" : {
+	"big1" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big1.png"), 
+	"big2" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big2.png"),
+	"big3" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big3.png"),
+	"big4" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big4.png"),
+	}
+}
 
 
 #get screen size
@@ -39,13 +53,14 @@ func update_score(points : int):
 func make_asteroid():
 	var asteroid_scene = asteroid_scene_big
 	var a = asteroid_scene.instantiate()
-	#ready function called when added to scene tree
-	$Asteroids.add_child(a)
-	
-	#set the force direction here
-	a.velocity = (player.position - a.position).normalized() * a.speed
+	a.variations = variations
 	a.strikeout.connect(Callable(self, "remove_asteroid"))
 	a.killed.connect(Callable(self, "dead_asteroid"))
+	#ready function called when added to scene tree
+	$Asteroids.add_child(a)
+	a.velocity = (player.global_position - a.global_position).normalized() * a.speed
+	#set the force direction here
+	
 
 func dead_asteroid(body : CharacterBody2D):
 	if body in $Asteroids.get_children():
@@ -83,7 +98,7 @@ func _ready() -> void:
 	screen_ends = screen_size.end
 	score_label.position = screen_size.get_center() - Vector2(0, screen_ends.y*0.45)
 	#should start already stopped
-	enemy_timer.wait_time = 1
+	enemy_timer.wait_time = 5
 	enemy_timer.autostart = true
 	
 	# Initialize lives label
@@ -128,15 +143,15 @@ func _on_space_ship_out_of_bounds(player: CharacterBody2D) -> void:
 		$Asteroids.remove_child(a)
 	for i in range(asteroid_count):
 		make_asteroid()
-	#for e in $Enemies.get_children():
-		#$Enemies.remove_child(e)
+	for e in $Enemies.get_children():
+		$Enemies.remove_child(e)
 	for b in $Bullets.get_children():
 		$Bullets.remove_child(b)
 	pass # Replace with function body.
 
 
 func _on_enemy_spawn_timer_timeout() -> void:
-	if enemy_current < 5:
+	if enemy_current < 3:
 		instantiate_enemy()
 	pass # Replace with function body.
 func bullet_stopped(bullet : CharacterBody2D) -> void:
