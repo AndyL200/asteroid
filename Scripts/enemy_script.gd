@@ -65,6 +65,12 @@ func setup_firing_timer() -> void:
 	add_child(fire_timer)
 
 func _physics_process(delta: float) -> void:
+	# Stop enemy behavior if game is over (check game manager state)
+	var game_manager = get_node("/root/Game")
+	if game_manager and game_manager.has_method("get") and "is_game_over" in game_manager:
+		if game_manager.is_game_over:
+			return
+	
 	# Update enemy behavior
 	update_orientation(delta)
 	update_movement(delta)

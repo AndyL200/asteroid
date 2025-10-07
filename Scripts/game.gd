@@ -44,6 +44,9 @@ var score = 0
 #counter (may need to be atomic)
 var enemy_current = 0
 
+# Game state management
+var is_game_over := false
+
 func update_score(points : int):
 	score += points
 	score_label.text = str(score)
@@ -111,6 +114,10 @@ func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
+	# Stop all game processes if game is over
+	if is_game_over:
+		return
+		
 	#TODO(Interpolate an angle for each swap)
 	for e in $Enemies.get_children():
 		# Update player position for enhanced enemies
@@ -195,10 +202,47 @@ func update_lives_label(new_health : int) -> void:
 	lives_label.text = "Lives: " + str(new_health)
 
 func on_player_death() -> void:
-	# Game Over - Load the heart to heart scene
+	# Game Over - Play sound, stop all gameplay, and transition to lose scene
+	# Set game over flag to stop all gameplay processes
+	is_game_over = true
+	
+	# Stop enemy spawning
+	enemy_timer.stop()
+	
+	# Play game over sound effect from assets folder
 	if is_inside_tree():
-		get_tree().change_scene_to_file("res://Scenes/loseScene.tscn")
+		var game_over_sound = AudioStreamPlayer.new()
+		game_over_sound.stream = preload("res://Asset/KenneySpaceShooter/Bonus/sfx_lose.ogg")
+		add_child(game_over_sound)
+		game_over_sound.play()
+		
+		# Wait for sound to finish playing before changing scene
+		await game_over_sound.finished
+		
+		# Clean up sound player and change scene
+		game_over_sound.queue_free()
+		if is_inside_tree():
+			get_tree().change_scene_to_file("res://Scenes/loseScene.tscn")
 	
 func win_game() -> void:
+	# Victory - Stop all gameplay and transition to win scene
+	# Set game over flag to stop all gameplay processes
+	is_game_over = true
+	
+	# Stop enemy spawning
+	enemy_timer.stop()
+	
 	if is_inside_tree():
-		get_tree().change_scene_to_file("res://Scenes/winScene.tscn")
+		# Play victory sound effect
+		var victory_sound = AudioStreamPlayer.new()
+		victory_sound.stream = preload("res://Asset/KenneySpaceShooter/Bonus/jingle.ogg")
+		add_child(victory_sound)
+		victory_sound.play()
+		
+		# Wait for sound to play before changing scene
+		await victory_sound.finished
+		
+		# Clean up sound player and change scene
+		victory_sound.queue_free()
+		if is_inside_tree():
+			get_tree().change_scene_to_file("res://Scenes/winScene.tscn")
