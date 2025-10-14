@@ -32,23 +32,27 @@ signal out(body : CharacterBody2D)
 
 var val := 1
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
 	screen_size = get_viewport_rect()
 	screen_position = screen_size.position
 	screen_ends = screen_size.end
 	spawn_at_random_position()
-	pass # Replace with function body.
 func basic_conditions() -> void:
 	var color = colorKeys[randi() % colorKeys.size()]
 	var variation = variationKeys[randi() % variationKeys.size()]
-	$BigSprite1.texture = variations[color][variation]
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	
+	var sprite_node = null
+	for child in get_children():
+		if child is Sprite2D:
+			sprite_node = child
+			break
+	
+	if sprite_node:
+		sprite_node.texture = ImageTexture.create_from_image(variations[color][variation])
 func _physics_process(delta: float) -> void:
 	if(sleeping):
 		return
-		#sleep process
 	move_and_slide()
 	for i in range(get_slide_collision_count()):
 		var collide = get_slide_collision(i)
@@ -60,16 +64,14 @@ func _physics_process(delta: float) -> void:
 		return
 
 func spawn_at_random_position() -> void:
-	"""Spawns enemy at random position outside screen boundaries"""
 	var upper_bound = Vector2(screen_ends.x, screen_ends.y)
 	var lower_bound = Vector2(screen_position.x, screen_position.y)
 	
-	# Choose random side to spawn from (with 100px buffer outside screen)
 	var spawn_sides = [
-		Vector2(randi() % int(screen_ends.x), lower_bound.y - randi() % 101 - 50),  # Top
-		Vector2(randi() % int(screen_ends.x), upper_bound.y + randi() % 101 + 50),  # Bottom
-		Vector2(lower_bound.x - randi() % 101 - 50, randi() % int(screen_ends.y)),  # Left
-		Vector2(upper_bound.x + randi() % 101 + 50, randi() % int(screen_ends.y))   # Right
+		Vector2(randi() % int(screen_ends.x), lower_bound.y - randi() % 101 - 50),
+		Vector2(randi() % int(screen_ends.x), upper_bound.y + randi() % 101 + 50),
+		Vector2(lower_bound.x - randi() % 101 - 50, randi() % int(screen_ends.y)),
+		Vector2(upper_bound.x + randi() % 101 + 50, randi() % int(screen_ends.y))
 	]
 	
 	position = spawn_sides[randi() % spawn_sides.size()]

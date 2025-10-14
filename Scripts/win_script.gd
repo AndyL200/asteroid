@@ -16,7 +16,6 @@ func _ready() -> void:
 	win_ui.visible = false
 	process_line(parse_line(dialog_lines[current_line]))
 	current_line = current_line + 1
-	pass
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Shoot"):
@@ -25,7 +24,6 @@ func _process(delta: float) -> void:
 		if current_line >= dialog_lines.size():
 			win_message()
 			current_line = 0
-	pass
 
 func parse_line(line : String) -> Dictionary:
 	var line_info = line.split(':')
@@ -39,4 +37,3 @@ func process_line(line_info : Dictionary) -> void:
 
 func win_message():
 	win_ui.visible = true
-	pass

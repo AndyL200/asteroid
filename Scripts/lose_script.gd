@@ -17,7 +17,6 @@ func _ready() -> void:
 	lose_ui.visible = false
 	process_line(parse_line(dialog_lines[current_line]))
 	current_line = current_line + 1
-	pass
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Shoot"):
@@ -26,7 +25,6 @@ func _process(delta: float) -> void:
 		if current_line >= dialog_lines.size():
 			game_over()
 			current_line = 0
-	pass
 
 func parse_line(line : String) -> Dictionary:
 	var line_info = line.split(':')
@@ -39,4 +37,3 @@ func process_line(line_info : Dictionary) -> void:
 	dialogui.change_line(line_info["speaker"], line_info["dialog"])
 func game_over() -> void:
 	lose_ui.visible = true
-	pass

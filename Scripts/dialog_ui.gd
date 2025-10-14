@@ -9,7 +9,6 @@ var animate_text : bool = false
 var curr_visible_characters := 0
 
 func _ready() -> void:
-	pass
 	
 func _process(delta: float) -> void:
 	if animate_text:
@@ -18,7 +17,6 @@ func _process(delta: float) -> void:
 			curr_visible_characters = dialogBox.visible_characters
 		else:
 			animate_text = false
-	pass
 	
 func change_line(speaking : String, line : String):
 	speaker.text = speaking

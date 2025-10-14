@@ -17,10 +17,11 @@ height = 110.0
 font = ExtResource("7_c88mg")
 font_size = 25
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("score_label", "lives_label", "enemy_timer", "player")]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("score_label", "lives_label", "combo_label", "enemy_timer", "player")]
 script = ExtResource("1_kc6at")
 score_label = NodePath("Score")
 lives_label = NodePath("Lives")
+combo_label = NodePath("Combo")
 enemy_timer = NodePath("EnemySpawnTimer")
 player = NodePath("SpaceShip")
 metadata/_edit_lock_ = true
@@ -87,6 +88,16 @@ text = "Lives: 3"
 label_settings = SubResource("LabelSettings_uoyx2")
 metadata/_edit_lock_ = true
 
+[node name="Combo" type="Label" parent="."]
+visible = false
+offset_left = 700.0
+offset_top = 34.0
+offset_right = 850.0
+offset_bottom = 69.0
+text = "Combo: 2x"
+label_settings = SubResource("LabelSettings_uoyx2")
+metadata/_edit_lock_ = true
+
 [node name="Asteroids" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
@@ -97,6 +108,9 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="Bullets" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="PowerUps" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
 
 [node name="gameplayAudio" type="AudioStreamPlayer" parent="."]
