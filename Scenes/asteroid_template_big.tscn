@@ -7,11 +7,10 @@
 radius = 53.0
 height = 106.0
 
-[node name="Asteroid_Template_Big" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]
+[node name="Asteroid_Template_Big" type="CharacterBody2D"]
 z_index = 1
 slide_on_ceiling = false
 script = ExtResource("1_dt6oh")
-sprite = NodePath("BigSprite1")
 
 [node name="BigSprite1" type="Sprite2D" parent="."]
 texture = ExtResource("2_4rgno")

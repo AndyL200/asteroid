@@ -3,7 +3,6 @@ extends CharacterBody2D
 var screen_size : Rect2
 var screen_position : Vector2
 var screen_ends : Vector2
-signal outOfBounds(player : CharacterBody2D)
 signal firing(body : CharacterBody2D, shootingPosition : Node2D)
 signal death
 signal health_changed(new_health : int)
@@ -22,21 +21,18 @@ var game_over_threshold := 0  # Health value that triggers game over
 var is_invulnerable := false
 var is_game_over := false  # Flag to stop gameplay processes
 
+
+func _player_method() -> void:
+	pass
+
 func _ready() -> void:
-	screen_size = get_viewport_rect()
-	screen_position = screen_size.position
-	screen_ends = screen_size.end
+	pass
+
 
 func _physics_process(delta: float) -> void:
 	# Stop all gameplay processes if game is over
 	if is_game_over:
 		return
-		
-	# Boundary detection for screen wrapping
-	if(position.x > screen_ends.x or position.y > screen_ends.y):
-		outOfBounds.emit(self)
-	if(position.x < screen_position.x or position.y < screen_position.y):
-		outOfBounds.emit(self)
 		
 	# Player input handling
 	var input_dir: Vector2 = Input.get_vector("MoveLeft", "MoveRight", "MoveUp", "MoveDown")

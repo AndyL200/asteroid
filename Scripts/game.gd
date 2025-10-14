@@ -26,20 +26,25 @@ var variations = {
 	}
 }
 
+var asteroid_positions = []
+var curr_ast_post = 0;
 
+func add_ast_poss(i : int) ->void:
+	curr_ast_post = (curr_ast_post + i) % asteroid_positions.size()
+	pass
 #get screen size
 var screen_size : Rect2
 var screen_position : Vector2
 var screen_ends : Vector2
 
 #scenes
-var enemy_scene := preload("res://Scenes/enemy_black_1_scene.tscn")
-var asteroid_scene_big := preload("res://Scenes/asteroid_template_big.tscn")
-var bullet_scene := preload("res://Scenes/bullet_scene.tscn")
-var enemy_bullet_scene := preload("res://Scenes/enemy_bullet_scene.tscn")
+@onready var enemy_scene := preload("res://Scenes/enemy_black_1_scene.tscn")
+@onready var asteroid_scene_big := preload("res://Scenes/asteroid_template_big.tscn")
+@onready var bullet_scene := preload("res://Scenes/bullet_scene.tscn")
+@onready var enemy_bullet_scene := preload("res://Scenes/enemy_bullet_scene.tscn")
 
 #counts
-var asteroid_count = 5
+var asteroid_count = 10
 var score = 0
 #counter (may need to be atomic)
 var enemy_current = 0
@@ -54,14 +59,15 @@ func update_score(points : int):
 		win_game()
 	pass
 func make_asteroid():
-	var asteroid_scene = asteroid_scene_big
-	var a = asteroid_scene.instantiate()
+	var a = asteroid_scene_big.instantiate()
 	a.variations = variations
-	a.strikeout.connect(Callable(self, "remove_asteroid"))
 	a.killed.connect(Callable(self, "dead_asteroid"))
+	a.global_position = asteroid_positions[curr_ast_post].global_position;
+	add_ast_poss(1)
+	a.velocity = (player.global_position - a.global_position).normalized() * a.speed
 	#ready function called when added to scene tree
 	$Asteroids.add_child(a)
-	a.velocity = (player.global_position - a.global_position).normalized() * a.speed
+	
 	#set the force direction here
 	
 
@@ -77,10 +83,11 @@ func dead_asteroid(body : CharacterBody2D):
 		
 		update_score(body.val)
 	remove_asteroid(body)
+	
+	
 func remove_asteroid(asteroid : CharacterBody2D):
 	$Asteroids.remove_child(asteroid)
-	#asychronus code not guarded by mutex
-	make_asteroid()
+	asteroid.queue_free()
 
 func instantiate_enemy():
 	var enemy : CharacterBody2D = enemy_scene.instantiate()
@@ -96,21 +103,22 @@ func remove_enemy(enemy : Node2D):
 	
 	
 func _ready() -> void:
+	asteroid_positions = [$Asteroids/spawn/spawn1, $Asteroids/spawn/spawn2, $Asteroids/spawn/spawn3,  $Asteroids/spawn/spawn4]
 	screen_size = get_viewport_rect()
 	screen_position = screen_size.position
 	screen_ends = screen_size.end
 	score_label.position = screen_size.get_center() - Vector2(0, screen_ends.y*0.45)
 	#should start already stopped
-	enemy_timer.wait_time = 5
+	enemy_timer.wait_time = 1
 	enemy_timer.autostart = true
 	
 	# Initialize lives label
 	update_lives_label(player.health)
-	player.health_changed.connect(Callable(self, "update_lives_label"))
-	player.death.connect(Callable(self, "on_player_death"))
+	#player.health_changed.connect(Callable(self, "update_lives_label"))
+	#player.death.connect(Callable(self, "on_player_death"))
 	
 	for i in range(asteroid_count):
-		make_asteroid()
+		call_deferred("make_asteroid")
 	pass
 
 func _process(delta: float) -> void:
@@ -123,14 +131,12 @@ func _process(delta: float) -> void:
 		# Update player position for enhanced enemies
 		if e.has_method("set_player_position"):
 			e.set_player_position(player.position)
-		else:
-			# Fallback for old enemy type
-			e.player_position = player.position
+		
 	pass
 
 
 
-func _on_space_ship_out_of_bounds(player: CharacterBody2D) -> void:
+func ship_out_of_bounds(player: CharacterBody2D) -> void:
 	enemy_timer.stop()
 	#have to block process for until the end of this code
 		
@@ -147,18 +153,25 @@ func _on_space_ship_out_of_bounds(player: CharacterBody2D) -> void:
 		player.position = Vector2(screen_size.get_center().x, screen_position.y)
 	
 	for a in $Asteroids.get_children():
-		$Asteroids.remove_child(a)
+		if a.has_method("_asteroid_method"):
+			remove_asteroid(a)
+			a.queue_free()
 	for i in range(asteroid_count):
-		make_asteroid()
+		call_deferred("make_asteroid")
 	for e in $Enemies.get_children():
-		$Enemies.remove_child(e)
+		if e.has_method(""):
+			remove_enemy(e)
+			e.queue_free()
 	for b in $Bullets.get_children():
 		$Bullets.remove_child(b)
+		b.queue_free()
+		
+	enemy_timer.start()
 	pass # Replace with function body.
 
 
 func _on_enemy_spawn_timer_timeout() -> void:
-	if enemy_current < 3:
+	if enemy_current < 5:
 		instantiate_enemy()
 	pass # Replace with function body.
 func bullet_stopped(bullet : CharacterBody2D) -> void:
@@ -246,3 +259,13 @@ func win_game() -> void:
 		victory_sound.queue_free()
 		if is_inside_tree():
 			get_tree().change_scene_to_file("res://Scenes/winScene.tscn")
+
+
+func _on_screen_area_body_exited(body: Node2D) -> void:
+	if body.has_method("_asteroid_method"):
+		remove_asteroid(body)
+	elif body.has_method("_enemy_method"):
+		remove_enemy(body)
+	elif body.has_method("_player_method"):
+		ship_out_of_bounds(body)
+	pass # Replace with function body.

@@ -161,3 +161,6 @@ func set_fire_rate(rate: float) -> void:
 	fire_rate = rate
 	if fire_timer:
 		fire_timer.wait_time = 1.0 / fire_rate
+		
+func _enemy_method() ->void:
+	pass

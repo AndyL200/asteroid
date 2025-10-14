@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://jlthugjebc3q"]
+[gd_scene load_steps=12 format=3 uid="uid://jlthugjebc3q"]
 
 [ext_resource type="Script" uid="uid://c4g5msy8fqmat" path="res://Scripts/game.gd" id="1_kc6at"]
 [ext_resource type="Texture2D" uid="uid://c5tevw2qc6tgp" path="res://Asset/KenneySpaceShooter/PNG/playerShip3_blue.png" id="2_28psf"]
@@ -16,6 +16,9 @@ height = 110.0
 [sub_resource type="LabelSettings" id="LabelSettings_uoyx2"]
 font = ExtResource("7_c88mg")
 font_size = 25
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28psf"]
+size = Vector2(1161, 641)
 
 [node name="Game" type="Node2D" node_paths=PackedStringArray("score_label", "lives_label", "enemy_timer", "player")]
 script = ExtResource("1_kc6at")
@@ -76,6 +79,7 @@ offset_right = 597.0
 offset_bottom = 69.0
 text = "0"
 label_settings = SubResource("LabelSettings_uoyx2")
+metadata/_edit_lock_ = true
 
 [node name="Lives" type="Label" parent="."]
 offset_left = 34.0
@@ -84,19 +88,49 @@ offset_right = 120.0
 offset_bottom = 69.0
 text = "Lives: 3"
 label_settings = SubResource("LabelSettings_uoyx2")
+metadata/_edit_lock_ = true
 
 [node name="Asteroids" type="Node2D" parent="."]
+scale = Vector2(-8271.65, 2118.11)
+metadata/_edit_lock_ = true
+
+[node name="spawn" type="Node2D" parent="Asteroids"]
+metadata/_edit_lock_ = true
+
+[node name="spawn1" type="Node2D" parent="Asteroids/spawn"]
+position = Vector2(-0.119323, 0.0203011)
+
+[node name="spawn2" type="Node2D" parent="Asteroids/spawn"]
+position = Vector2(-0.0304655, 0.0217174)
+
+[node name="spawn3" type="Node2D" parent="Asteroids/spawn"]
+position = Vector2(-0.0168044, 0.263442)
+
+[node name="spawn4" type="Node2D" parent="Asteroids/spawn"]
+position = Vector2(-0.117147, 0.266275)
 
 [node name="Enemies" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="spawn" type="Node2D" parent="Enemies"]
+metadata/_edit_lock_ = true
 
 [node name="Bullets" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
 
 [node name="gameplayAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_28psf")
 autoplay = true
 
+[node name="screenArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="screenArea"]
+position = Vector2(579, 323)
+shape = SubResource("RectangleShape2D_28psf")
+
 [connection signal="death" from="SpaceShip" to="." method="on_player_death"]
 [connection signal="firing" from="SpaceShip" to="." method="_on_space_ship_firing"]
 [connection signal="health_changed" from="SpaceShip" to="." method="update_lives_label"]
-[connection signal="outOfBounds" from="SpaceShip" to="." method="_on_space_ship_out_of_bounds"]
 [connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
+[connection signal="area_exited" from="screenArea" to="." method="_on_screen_area_area_exited"]
+[connection signal="body_exited" from="screenArea" to="." method="_on_screen_area_body_exited"]
