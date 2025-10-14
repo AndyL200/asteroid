@@ -10,28 +10,10 @@ extends Node2D
 
 #Notes
 #TODO(make a scene for the enemies)
-var variations = {
-	"brown" : {
-	"big1" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big1.png"), 
-	"big2" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big2.png"),
-	"big3" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big3.png"),
-	"big4" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorBrown_big4.png"),
-	},
-	
-	"grey" : {
-	"big1" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big1.png"), 
-	"big2" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big2.png"),
-	"big3" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big3.png"),
-	"big4" : Image.load_from_file("res://Asset/KenneySpaceShooter/PNG/Meteors/meteorGrey_big4.png"),
-	}
-}
 
-var asteroid_positions = []
-var curr_ast_post = 0;
 
-func add_ast_poss(i : int) ->void:
-	curr_ast_post = (curr_ast_post + i) % asteroid_positions.size()
-	pass
+
+
 #get screen size
 var screen_size : Rect2
 var screen_position : Vector2
@@ -60,11 +42,10 @@ func update_score(points : int):
 	pass
 func make_asteroid():
 	var a = asteroid_scene_big.instantiate()
-	a.variations = variations
 	a.killed.connect(Callable(self, "dead_asteroid"))
-	a.global_position = asteroid_positions[curr_ast_post].global_position;
-	add_ast_poss(1)
-	a.velocity = (player.global_position - a.global_position).normalized() * a.speed
+	a.out.connect(Callable(self, "remove_asteroid"))
+	a.velocity = (player.position - a.position).normalized() * 100
+	#a.basic_conditions()
 	#ready function called when added to scene tree
 	$Asteroids.add_child(a)
 	
@@ -82,7 +63,7 @@ func dead_asteroid(body : CharacterBody2D):
 		destruction_sound.finished.connect(destruction_sound.queue_free)
 		
 		update_score(body.val)
-	remove_asteroid(body)
+		remove_asteroid(body)
 	
 	
 func remove_asteroid(asteroid : CharacterBody2D):
@@ -100,10 +81,10 @@ func remove_enemy(enemy : Node2D):
 	#This is wrong this needs to be based on a signal
 	$Enemies.remove_child(enemy)
 	enemy_current -= 1
+	enemy.queue_free()
 	
 	
 func _ready() -> void:
-	asteroid_positions = [$Asteroids/spawn/spawn1, $Asteroids/spawn/spawn2, $Asteroids/spawn/spawn3,  $Asteroids/spawn/spawn4]
 	screen_size = get_viewport_rect()
 	screen_position = screen_size.position
 	screen_ends = screen_size.end
@@ -114,6 +95,7 @@ func _ready() -> void:
 	
 	# Initialize lives label
 	update_lives_label(player.health)
+	player.out.connect(Callable(self, "ship_out_of_bounds"))
 	#player.health_changed.connect(Callable(self, "update_lives_label"))
 	#player.death.connect(Callable(self, "on_player_death"))
 	
@@ -155,13 +137,11 @@ func ship_out_of_bounds(player: CharacterBody2D) -> void:
 	for a in $Asteroids.get_children():
 		if a.has_method("_asteroid_method"):
 			remove_asteroid(a)
-			a.queue_free()
 	for i in range(asteroid_count):
-		call_deferred("make_asteroid")
+		make_asteroid()
 	for e in $Enemies.get_children():
 		if e.has_method(""):
 			remove_enemy(e)
-			e.queue_free()
 	for b in $Bullets.get_children():
 		$Bullets.remove_child(b)
 		b.queue_free()
@@ -259,13 +239,3 @@ func win_game() -> void:
 		victory_sound.queue_free()
 		if is_inside_tree():
 			get_tree().change_scene_to_file("res://Scenes/winScene.tscn")
-
-
-func _on_screen_area_body_exited(body: Node2D) -> void:
-	if body.has_method("_asteroid_method"):
-		remove_asteroid(body)
-	elif body.has_method("_enemy_method"):
-		remove_enemy(body)
-	elif body.has_method("_player_method"):
-		ship_out_of_bounds(body)
-	pass # Replace with function body.

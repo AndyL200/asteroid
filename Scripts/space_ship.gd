@@ -1,11 +1,9 @@
 extends CharacterBody2D
 
-var screen_size : Rect2
-var screen_position : Vector2
-var screen_ends : Vector2
 signal firing(body : CharacterBody2D, shootingPosition : Node2D)
 signal death
 signal health_changed(new_health : int)
+signal out(body : CharacterBody2D)
 
 # Movement properties
 var max_speed: float = 300.0
@@ -26,10 +24,14 @@ func _player_method() -> void:
 	pass
 
 func _ready() -> void:
+	
 	pass
 
 
 func _physics_process(delta: float) -> void:
+	if not get_viewport_rect().has_point(position):
+		out.emit(self)
+		return
 	# Stop all gameplay processes if game is over
 	if is_game_over:
 		return
